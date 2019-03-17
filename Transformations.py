@@ -39,9 +39,44 @@ class Trans():
     def tosymp(self, expr):
         return parse_expr(expr)
 
+    # for update matplotlib use press for keypresses
+    def press(self, event):
+        print('press', event.key)
+        sys.stdout.flush()
+        if event.key == 'pageup':
+            print("[Pageup pressed]")
+            self.reflect(axis="x")
+            self.submit(recenter=False)
+        elif event.key == 'pagedown':
+            print("[Pagedown pressed]")
+            self.reflect(axis="y")
+            self.submit(recenter=False)
+        elif event.key == 'up':
+            print("[Up pressed]")
+            self.translate(axis="y", val=1)
+            self.submit(recenter=False)
+        elif event.key == 'down':
+            print("[Down pressed]")
+            self.translate(axis="y", val=(-1))
+            self.submit(recenter=False)
+        elif event.key == 'left':
+            print("[Left pressed]")
+            self.translate(axis="x", val=1)
+            self.submit(recenter=False)
+        elif event.key == 'right':
+            print("[Right pressed]")
+            self.translate(axis="x", val=(-1))
+            self.submit(recenter=False)
+        elif event.key == ' ':
+            print("[Space pressed]")
+            self.submit(recenter=True)
+
+
     # plot function using matplotlib
-    def plot(self):
+    def plot(self, update=False):
         self.l, = plt.plot(self.t, self.s, lw=2)
+        if (update == True):
+            self.fig.canvas.mpl_connect('key_press_event', self.press)
         self.axbox = plt.axes([0.1, 0.05, 0.8, 0.075])
         # convert x to self.t
         xt = self.flist[len(self.flist)-1]
@@ -52,6 +87,17 @@ class Trans():
         plt.draw()
         plt.show()
 
+
+    # redraw plot without restarting
+    def submit(self, recenter=False):
+        # convert x to self.t
+        xt = self.flist[len(self.flist)-1]
+        xt = xt.replace("x","(self.t)")
+        ydata = eval(xt)
+        self.l.set_ydata(ydata)
+        if recenter == True:
+            self.ax.set_ylim(np.min(ydata), np.max(ydata))
+        plt.draw()
 
     # get full list in string format 
     def ListToString(self, header=True):
@@ -116,7 +162,8 @@ class Trans():
             symptoadd = self.tosymp(toadd)
             symptoadd = symptoadd + val
             self.flist.append(str(symptoadd))
-        
+
+            
     # reflect over x or y axis
     def reflect(self, axis="x"):
         print("\nReflecting over the " + str(axis) + "-axis...")
