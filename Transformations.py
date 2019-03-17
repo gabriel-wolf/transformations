@@ -74,21 +74,27 @@ class Trans():
     def getList(self):
         return self.flist
 
+    # get final value in list
     def getFinal(self):
         return self.flist[len(self.flist)-1]
 
+    # get first value in list
     def getInitial(self):
         return self.flist[0]
 
+    # gte value at index
     def getIndex(self, index=0):
         return self.flist[index]
-    
+
+    # set list 
     def setList(self, newList=["0"]):
         self.flist = newList
 
+    # set index of list
     def setIndex(self, index=0, value=1):
         self.flist[index] = value
 
+    # translate by value
     def translate(self, axis="x", val=1):
         vertorhor = "vertically"
         if axis == "x":
@@ -99,12 +105,9 @@ class Trans():
         curr = self.flist[len(self.flist)-1]
         # if x then hor
         if (axis == "x"):
-            ###### TODO: add x translate
             toadd = curr
             symptoadd = self.tosymp(toadd)
             print(symptoadd.args)
-
-            
             symptoadd = symptoadd.replace(x,val+x)
             self.flist.append(str(symptoadd))
         # else if y then vert
@@ -114,7 +117,7 @@ class Trans():
             symptoadd = symptoadd + val
             self.flist.append(str(symptoadd))
         
-
+    # reflect over x or y axis
     def reflect(self, axis="x"):
         print("\nReflecting over the " + str(axis) + "-axis...")
         curr = self.flist[len(self.flist)-1]
