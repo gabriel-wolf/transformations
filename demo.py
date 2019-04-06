@@ -1,7 +1,7 @@
 from Transformations import Trans
 
 # create class of Trans
-t = Trans("(x**3)")
+t = Trans("(x**4)")
 
 # print trans test function
 print(t.test())

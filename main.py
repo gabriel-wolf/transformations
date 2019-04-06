@@ -14,9 +14,9 @@ while True:
     elif uinput == "down":
         t.translate(axis="y", val=-1)
     elif uinput == "left":
-        t.translate(axis="x", val=-1)
-    elif uinput == "right":
         t.translate(axis="x", val=1)
+    elif uinput == "right":
+        t.translate(axis="x", val=-1)
     elif uinput == "x":
         t.reflect(axis="x")
     elif uinput == "y":
